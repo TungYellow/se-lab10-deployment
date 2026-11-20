@@ -1,0 +1,17 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">SE Lab 10 – Software Deployment</h1>
+    <p class="lead">ASP.NET Core <strong>Razor Pages</strong> app running inside a Docker container.</p>
+    <table class="table table-bordered w-auto mx-auto mt-4 text-start">
+        <tr><th>Host / container name</th><td>@System.Environment.MachineName</td></tr>
+        <tr><th>Operating system</th><td>@System.Runtime.InteropServices.RuntimeInformation.OSDescription</td></tr>
+        <tr><th>.NET runtime</th><td>@System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription</td></tr>
+        <tr><th>Environment</th><td>@(System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production")</td></tr>
+        <tr><th>Server time (UTC)</th><td>@DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")</td></tr>
+    </table>
+</div>

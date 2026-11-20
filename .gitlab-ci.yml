@@ -1,0 +1,23 @@
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker build -t "$CI_REGISTRY_USER/myaspnetcoreapp:latest" ./MyAspNetCoreApp
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin
+    - docker push "$CI_REGISTRY_USER/myaspnetcoreapp:latest"
+
+deploy:
+  stage: deploy
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker pull "$CI_REGISTRY_USER/myaspnetcoreapp:latest"
+    - docker rm -f myaspnetcoreappcontainer || true
+    - docker run -d -p 8080:80 --name myaspnetcoreappcontainer "$CI_REGISTRY_USER/myaspnetcoreapp:latest"
